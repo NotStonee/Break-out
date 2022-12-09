@@ -104,11 +104,11 @@
     const ball = {
       x: 250,
       y: 260,
-      width: 5,
-      height: 5,
+      width: 10,
+      height: 10,
     
       // how fast the ball should go in the x or y direction
-      speed: 3,
+      speed: 4,
     
       // ball velocity
       dx: 0,
@@ -186,6 +186,7 @@
           // remove brick from the bricks array
           bricks.splice(i, 1);
           
+          
     
           // ball is above or below the brick, change y velocity
           // account for the balls speed since it will be inside the brick when it
@@ -229,11 +230,11 @@
     document.addEventListener('keydown', function(e) {
       // left arrow key
       if (e.which === 65) {
-        paddle.dx = -5;
+        paddle.dx = -6;
       }
       // right arrow key
       else if (e.which === 68) {
-        paddle.dx = 5;
+        paddle.dx = 6;
       }
     
       // space key
