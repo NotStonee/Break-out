@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <script>
     var chance=Math.random() * 10
-    console.log(chance)
+    var score = 0
   </script>
   <style>
     html,
@@ -132,6 +132,8 @@
     function loop() {
       requestAnimationFrame(loop);
       context.clearRect(0,0,canvas.width,canvas.height);
+
+      text('Score: '+score, '30px Cosmic Sans MS',20,35,'white')
     
       // move paddle by it's velocity
       paddle.x += paddle.dx;
@@ -173,7 +175,6 @@
         ball.dx = 0;
         ball.dy = 0;
         chance = Math.random() * 10
-        console.log(chance)
       }
 
       
@@ -191,10 +192,12 @@
       // and change the ball velocity based on the side the brick was hit on
       for (let i = 0; i < bricks.length; i++) {
         const brick = bricks[i];
+        
     
         if (collides(ball, brick)) {
           // remove brick from the bricks array
           bricks.splice(i, 1);
+          score++
           
           
     
@@ -265,6 +268,13 @@
         paddle.dx = 0;
       }
     });
+
+    function text(txt, fnt, x, y, c) {
+      context.fillStyle = c;
+      context.font = fnt;
+      context.fillText(txt, x, y)
+      
+    }
 
 // start the game
     requestAnimationFrame(loop);
