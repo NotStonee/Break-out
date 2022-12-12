@@ -4,6 +4,10 @@
 <head>
   <title>Breakout</title>
   <meta charset="UTF-8">
+  <script>
+    var chance=Math.random() * 10
+    console.log(chance)
+  </script>
   <style>
     html,
     body {
@@ -102,7 +106,7 @@
     };
     
     const ball = {
-      x: 250,
+      x: 130,
       y: 260,
       width: 10,
       height: 10,
@@ -159,14 +163,20 @@
         ball.y = wallSize;
         ball.dy *= -1;
       }
-    
+
+      
+      
       // reset ball if it goes below the screen
       if (ball.y > canvas.height) {
-        ball.x = 130;
+        ball.x = Math.random() *400;
         ball.y = 260;
         ball.dx = 0;
         ball.dy = 0;
+        chance = Math.random() * 10
+        console.log(chance)
       }
+
+      
     
       // check to see if ball collides with paddle. if they do change y velocity
       if (collides(ball, paddle)) {
@@ -243,6 +253,9 @@
       if (ball.dx === 0 && ball.dy === 0 && e.which === 32) {
         ball.dx = ball.speed;
         ball.dy = ball.speed;
+        if (chance < 5) {
+          ball.dx *= -1
+        }
       }
     });
     
