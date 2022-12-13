@@ -243,13 +243,21 @@
     document.addEventListener('keydown', function(e) {
       // left arrow key
       if (e.which === 65) {
-        paddle.dx = -6;
+        paddle.dx = -7;
+      }
+
+      if (e.which === 37) {
+        paddle.dx = -7;
       }
       // right arrow key
-      else if (e.which === 68) {
-        paddle.dx = 6;
+      if (e.which === 68) {
+        paddle.dx = 7;
       }
-    
+
+      if (e.which === 39) {
+        paddle.dx = 7;
+      }
+      
       // space key
       // if they ball is not moving, we can launch the ball using the space key. ball
       // will move towards the bottom right to start
@@ -264,10 +272,17 @@
     
     // listen to keyboard events to stop the paddle if key is released
     document.addEventListener('keyup', function(e) {
-      if (e.which === 65 || e.which === 68) {
+      if (e.which === 65 || e.which === 37) {
         paddle.dx = 0;
       }
     });
+
+    document.addEventListener('keyup', function(e) {
+      if(e.which === 68 || e.which === 39) {
+        paddle.dx = 0
+      }
+      
+    })
 
     function text(txt, fnt, x, y, c) {
       context.fillStyle = c;
