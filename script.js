@@ -66,7 +66,7 @@ const canvas = document.getElementById('game');
       height: 10,
     
       // how fast the ball should go in the x or y direction
-      speed: 4,
+      speed: 3.5,
     
       // ball velocity
       dx: 0,
@@ -154,12 +154,6 @@ const canvas = document.getElementById('game');
           // remove brick from the bricks array
           bricks.splice(i, 1);
           score++
-
-
-          
-          
-          
-    
           // ball is above or below the brick, change y velocity
           // account for the balls speed since it will be inside the brick when it
           // collides
