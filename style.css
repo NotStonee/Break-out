@@ -1,0 +1,27 @@
+html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background: black;
+
+    }
+    canvas {
+      border: 2px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+
+    h1 {
+      color: white;
+      text-align: center;
+    }
+
+    h3 {
+      color: white;
+      text-align: center;
+    }
