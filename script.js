@@ -88,6 +88,7 @@ const canvas = document.getElementById('game');
       context.clearRect(0,0,canvas.width,canvas.height);
 
       text('Score: '+score, '30px Cosmic Sans MS',20,35,'white')
+      text('Lives: '+lives, '30px Cosmic Sans MS',280,35,'white')
     
       // move paddle by it's velocity
       paddle.x += paddle.dx;
@@ -123,12 +124,13 @@ const canvas = document.getElementById('game');
       
       
       // reset ball if it goes below the screen
-      if (ball.y > canvas.height) {
+      if (lives > 0 && ball.y > canvas.height) {
         ball.x = Math.random() *400;
         ball.y = 260;
         ball.dx = 0;
         ball.dy = 0;
         chance = Math.random() * 10
+        lives--
       }
 
       
@@ -152,6 +154,9 @@ const canvas = document.getElementById('game');
           // remove brick from the bricks array
           bricks.splice(i, 1);
           score++
+
+
+          
           
           
     
@@ -170,6 +175,7 @@ const canvas = document.getElementById('game');
           break;
         }
       }
+    
     
       // draw walls
       context.fillStyle = 'lightgrey';
@@ -215,7 +221,7 @@ const canvas = document.getElementById('game');
       // space key
       // if they ball is not moving, we can launch the ball using the space key. ball
       // will move towards the bottom right to start
-      if (ball.dx === 0 && ball.dy === 0 && e.which === 32) {
+      if (lives > 0 && ball.dx == 0 && ball.dy == 0 && e.which == 32) {
         ball.dx = ball.speed;
         ball.dy = ball.speed;
         if (chance < 5) {
