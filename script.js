@@ -1,3 +1,8 @@
+ var chance=Math.random() * 10;
+    var score = 0;
+    var lives = 5;
+    var gameOver = false;
+
 const canvas = document.getElementById('game');
     const context = canvas.getContext('2d');
     
@@ -89,7 +94,11 @@ const canvas = document.getElementById('game');
 
       text('Score: '+score, '30px Cosmic Sans MS',20,35,'white')
       text('Lives: '+lives, '30px Cosmic Sans MS',280,35,'white')
-    
+    if (gameOver == true) {
+      text('Game Over', '30px Cosmic Sans MS', canvas.width/2-60,350,'white')
+      text('Press R to restart', '18px Cosmic Sans MS', canvas.width/2-50,380,'white')
+      
+    }
       // move paddle by it's velocity
       paddle.x += paddle.dx;
     
@@ -131,6 +140,9 @@ const canvas = document.getElementById('game');
         ball.dy = 0;
         chance = Math.random() * 10
         lives--
+        if (lives == 0) {
+          gameOver=true;
+        }
       }
 
       
@@ -192,24 +204,52 @@ const canvas = document.getElementById('game');
       context.fillStyle = 'white';
       context.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
     }
-    
+
+    function resetBricks() {
+  // clear the existing bricks array
+  bricks.length = 0;
+
+  // create a new set of bricks based on the level1 array
+  for (let row = 0; row < level1.length; row++) {
+    for (let col = 0; col < level1[row].length; col++) {
+      const colorCode = level1[row][col];
+
+      bricks.push({
+        x: wallSize + (brickWidth + brickGap) * col,
+        y: wallSize + (brickHeight + brickGap) * row,
+        color: colorMap[colorCode],
+        width: brickWidth,
+        height: brickHeight
+      });
+    }
+  }
+}
     // listen to keyboard events to move the paddle
     document.addEventListener('keydown', function(e) {
       // left arrow key
-      if (e.which === 65) {
+      if (e.which == 65 && gameOver == false) {
         paddle.dx = -7;
       }
 
-      if (e.which === 37) {
+      if (e.which == 37 && gameOver == false) {
         paddle.dx = -7;
       }
       // right arrow key
-      if (e.which === 68) {
+      if (e.which == 68 && gameOver == false) {
         paddle.dx = 7;
       }
 
-      if (e.which === 39) {
+      if (e.which == 39 && gameOver == false) {
         paddle.dx = 7;
+      }
+
+      if (e.which == 82 && gameOver == true) {
+        lives = 5;
+        score = 0;
+        gameOver = false;
+        resetBricks();
+        paddle.x = canvas.width / 2 - brickWidth / 2;
+        paddle.y = 440;
       }
       
       // space key
@@ -226,13 +266,13 @@ const canvas = document.getElementById('game');
     
     // listen to keyboard events to stop the paddle if key is released
     document.addEventListener('keyup', function(e) {
-      if (e.which === 65 || e.which === 37) {
+      if (e.which == 65 || e.which == 37) {
         paddle.dx = 0;
       }
     });
 
     document.addEventListener('keyup', function(e) {
-      if(e.which === 68 || e.which === 39) {
+      if(e.which == 68 || e.which == 39) {
         paddle.dx = 0
       }
       
