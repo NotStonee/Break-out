@@ -226,6 +226,7 @@ const canvas = document.getElementById('game');
 
       if (e.which == 82 && gameOver == true) {
         lives = 5;
+        score = 0;
         gameOver = false;
       }
       
