@@ -204,23 +204,42 @@ const canvas = document.getElementById('game');
       context.fillStyle = 'white';
       context.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
     }
-    
+
+    function resetBricks() {
+  // clear the existing bricks array
+  bricks.length = 0;
+
+  // create a new set of bricks based on the level1 array
+  for (let row = 0; row < level1.length; row++) {
+    for (let col = 0; col < level1[row].length; col++) {
+      const colorCode = level1[row][col];
+
+      bricks.push({
+        x: wallSize + (brickWidth + brickGap) * col,
+        y: wallSize + (brickHeight + brickGap) * row,
+        color: colorMap[colorCode],
+        width: brickWidth,
+        height: brickHeight
+      });
+    }
+  }
+}
     // listen to keyboard events to move the paddle
     document.addEventListener('keydown', function(e) {
       // left arrow key
-      if (e.which == 65) {
+      if (e.which == 65 && gameOver == false) {
         paddle.dx = -7;
       }
 
-      if (e.which == 37) {
+      if (e.which == 37 && gameOver == false) {
         paddle.dx = -7;
       }
       // right arrow key
-      if (e.which == 68) {
+      if (e.which == 68 && gameOver == false) {
         paddle.dx = 7;
       }
 
-      if (e.which == 39) {
+      if (e.which == 39 && gameOver == false) {
         paddle.dx = 7;
       }
 
@@ -228,6 +247,9 @@ const canvas = document.getElementById('game');
         lives = 5;
         score = 0;
         gameOver = false;
+        resetBricks();
+        paddle.x = canvas.width / 2 - brickWidth / 2;
+        paddle.y = 440;
       }
       
       // space key
