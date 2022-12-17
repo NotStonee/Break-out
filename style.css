@@ -4,16 +4,15 @@ html, body {
   }
 
 body {
-  background: black;
   background-image: url('https://t4.ftcdn.net/jpg/02/15/94/83/360_F_215948377_kgIhNUy4X0iYsyUfYd9KKIViSPOxclbC.jpg');
   background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
   }
 
-canvas {
-  background:black;
-  border: 2px solid black;
+.canvas {
+  background-color:black;
+  border: 10px solid lightgrey;
   display: flex;
   align-items: center;
   justify-content: center;
