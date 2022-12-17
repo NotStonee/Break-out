@@ -208,6 +208,12 @@ const canvas = document.getElementById('game');
       // draw paddle
       context.fillStyle = 'white';
       context.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+
+      if (bricks.length == 0) {
+      lives +=6
+      resetBricks();
+      ball.y = canvas.height+100
+    }
     }
 
     function resetBricks() {
@@ -229,6 +235,11 @@ const canvas = document.getElementById('game');
     }
   }
 }
+
+    let brickCount = bricks.length;
+
+    
+
     document.addEventListener('keydown', function(e) {
   if (gameOver) return;
 
@@ -242,6 +253,9 @@ const canvas = document.getElementById('game');
     case 68: // 'D' key
       paddle.dx = 7;
       requestAnimationFrame(update);
+      break;
+    case 32: //spacebar
+      event.preventDefault();
       break;
   }
 
@@ -260,7 +274,6 @@ const canvas = document.getElementById('game');
       // if they ball is not moving, we can launch the ball using the space key. ball
       // will move towards the bottom right to start
       if (lives > 0 && ball.dx == 0 && ball.dy == 0 && e.which == 32) {
-        event.preventDefault();
         ball.dx = ball.speed;
         ball.dy = ball.speed;
         if (chance < 5) {
@@ -284,6 +297,7 @@ const canvas = document.getElementById('game');
       context.fillText(txt, x, y)
       
     }
+
 
 // start the game
     requestAnimationFrame(loop);
