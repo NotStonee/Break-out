@@ -2,6 +2,11 @@
     var score = 0;
     var lives = 5;
     var gameOver = false;
+  function update() {
+    // update game state
+    // draw game
+    requestAnimationFrame(update);
+  }
 
 const canvas = document.getElementById('game');
     const context = canvas.getContext('2d');
@@ -203,6 +208,12 @@ const canvas = document.getElementById('game');
       // draw paddle
       context.fillStyle = 'white';
       context.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+
+      if (bricks.length == 0) {
+      lives +=6
+      resetBricks();
+      ball.y = canvas.height+100
+    }
     }
 
     function resetBricks() {
@@ -224,25 +235,31 @@ const canvas = document.getElementById('game');
     }
   }
 }
-    // listen to keyboard events to move the paddle
+
+    let brickCount = bricks.length;
+
+    
+
     document.addEventListener('keydown', function(e) {
-      // left arrow key
-      if (e.which == 65 && gameOver == false) {
-        paddle.dx = -7;
-      }
+  if (gameOver) return;
 
-      if (e.which == 37 && gameOver == false) {
-        paddle.dx = -7;
-      }
-      // right arrow key
-      if (e.which == 68 && gameOver == false) {
-        paddle.dx = 7;
-      }
+  switch (e.which) {
+    case 37: // left arrow key
+    case 65: // 'A' key
+      paddle.dx = -7;
+      requestAnimationFrame(update);
+      break;
+    case 39: // right arrow key
+    case 68: // 'D' key
+      paddle.dx = 7;
+      requestAnimationFrame(update);
+      break;
+    case 32: //spacebar
+      event.preventDefault();
+      break;
+  }
 
-      if (e.which == 39 && gameOver == false) {
-        paddle.dx = 7;
-      }
-
+    document.addEventListener('keydown', function(e) {
       if (e.which == 82 && gameOver == true) {
         lives = 5;
         score = 0;
@@ -251,6 +268,7 @@ const canvas = document.getElementById('game');
         paddle.x = canvas.width / 2 - brickWidth / 2;
         paddle.y = 440;
       }
+    });
       
       // space key
       // if they ball is not moving, we can launch the ball using the space key. ball
@@ -264,19 +282,14 @@ const canvas = document.getElementById('game');
       }
     });
     
-    // listen to keyboard events to stop the paddle if key is released
-    document.addEventListener('keyup', function(e) {
-      if (e.which == 65 || e.which == 37) {
+        // listen to keyboard events to stop the paddle if key is released
+        document.addEventListener('keyup', function(e) {
+      if (e.which == 65 || e.which == 37 || e.which == 68 || e.which == 39) {
         paddle.dx = 0;
+        requestAnimationFrame(update);
       }
     });
 
-    document.addEventListener('keyup', function(e) {
-      if(e.which == 68 || e.which == 39) {
-        paddle.dx = 0
-      }
-      
-    })
 
     function text(txt, fnt, x, y, c) {
       context.fillStyle = c;
@@ -284,6 +297,7 @@ const canvas = document.getElementById('game');
       context.fillText(txt, x, y)
       
     }
+
 
 // start the game
     requestAnimationFrame(loop);
