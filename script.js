@@ -8,6 +8,19 @@
     requestAnimationFrame(update);
   }
 
+  let highScore = 0;
+
+
+
+// retrieve high score from local storage
+const storedHighScore = localStorage.getItem('highScore');
+if (storedHighScore) {
+  highScore = storedHighScore;
+}
+
+
+
+
 const canvas = document.getElementById('game');
     const context = canvas.getContext('2d');
     
@@ -94,15 +107,20 @@ const canvas = document.getElementById('game');
     
     // game loop
     function loop() {
+      if (score > highScore) {
+            highScore = score;
+          }
+        // save high score to local storage
+      localStorage.setItem('highScore', highScore);
       requestAnimationFrame(loop);
       context.clearRect(0,0,canvas.width,canvas.height);
 
       text('Score: '+score, '30px Cosmic Sans MS',20,35,'white')
       text('Lives: '+lives, '30px Cosmic Sans MS',280,35,'white')
     if (gameOver == true) {
-      text('Game Over', '30px Cosmic Sans MS', canvas.width/2-60,350,'white')
-      text('Press R to restart', '18px Cosmic Sans MS', canvas.width/2-50,380,'white')
-      
+      text('Game Over', '30px Cosmic Sans MS', canvas.width/2-60,340,'white')
+      text('High Score: '+highScore, '36px Cosmic Sans MS', canvas.width/2-90,300,'white')
+      text('Press R to restart', '18px Cosmic Sans MS', canvas.width/2-50,365,'white')
     }
       // move paddle by it's velocity
       paddle.x += paddle.dx;
@@ -171,6 +189,7 @@ const canvas = document.getElementById('game');
           // remove brick from the bricks array
           bricks.splice(i, 1);
           score++
+          
           // ball is above or below the brick, change y velocity
           // account for the balls speed since it will be inside the brick when it
           // collides
