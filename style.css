@@ -1,27 +1,32 @@
-html,
-    body {
-      height: 100%;
-      margin: 0;
-    }
+html, body {
+  height: 100%;
+  margin: 0;
+  }
 
-    body {
-      background: black;
+body {
+  background: black;
+  background-image: url('https://t4.ftcdn.net/jpg/02/15/94/83/360_F_215948377_kgIhNUy4X0iYsyUfYd9KKIViSPOxclbC.jpg');
+  background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+  }
 
-    }
-    canvas {
-      border: 2px solid white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: auto;
-    }
+canvas {
+  background:black;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  }
 
-    h1 {
-      color: white;
-      text-align: center;
-    }
+h1 {
+  color: white;
+  text-align: center;
+  }
 
-    h3 {
-      color: white;
-      text-align: center;
-    }
+h3 {
+  color: white;
+  text-align: center;
+  }
+
