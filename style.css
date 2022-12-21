@@ -13,10 +13,10 @@ body {
 .canvas {
   background-color:black;
   border: 10px solid lightgrey;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
+  left: 50%;
+  top: 380px;
+  transform: translate(-50%, -50%);
+  position:absolute;
   }
 
 h1 {
@@ -28,4 +28,9 @@ h3 {
   color: white;
   text-align: center;
   }
+
+h2 {
+  float:left;
+  color:white;
+}
 

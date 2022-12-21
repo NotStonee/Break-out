@@ -57,6 +57,7 @@ const canvas = document.getElementById('game');
     const brickHeight = 12;
     const wallSize = 12;
     const bricks = [];
+    const paddleLength = 35;
     
     for (let row = 0; row < level1.length; row++) {
       for (let col = 0; col < level1[row].length; col++) {
@@ -73,9 +74,9 @@ const canvas = document.getElementById('game');
     }
     
     const paddle = {
-      x: canvas.width / 2 - brickWidth / 2,
+      x: canvas.width / 2 - paddleLength / 2,
       y: 440,
-      width: brickWidth,
+      width: paddleLength,
       height: brickHeight,
     
       // paddle's velocity
@@ -129,8 +130,8 @@ const canvas = document.getElementById('game');
       if (paddle.x < wallSize) {
         paddle.x = wallSize
       }
-      else if (paddle.x + brickWidth > canvas.width - wallSize) {
-        paddle.x = canvas.width - wallSize - brickWidth;
+      else if (paddle.x + paddleLength > canvas.width - wallSize) {
+        paddle.x = canvas.width - wallSize - paddleLength;
       }
     
       // move ball by it's velocity
@@ -284,7 +285,7 @@ const canvas = document.getElementById('game');
         score = 0;
         gameOver = false;
         resetBricks();
-        paddle.x = canvas.width / 2 - brickWidth / 2;
+        paddle.x = canvas.width / 2 - paddleLength / 2;
         paddle.y = 440;
       }
     });
