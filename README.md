@@ -1,4 +1,3 @@
 # Break-out
 Bad copy of break out
-This is purly for fun I plan to futher improve my game and add more features 
-please recommend things i can add
+The Game is done I will only be working on it to make my code better, enhance play experience, and add new features.

@@ -1,14 +1,26 @@
-html, body {
+html {
   height: 100%;
-  margin: 0;
-  }
+  margin: 0px;
+  padding: 0px;
+}
+
+html {
+  overflow: scroll;
+   overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0;  
+  background: transparent; 
+  scrollbar invisible 
+}
 
 body {
   background-image: url('https://t4.ftcdn.net/jpg/02/15/94/83/360_F_215948377_kgIhNUy4X0iYsyUfYd9KKIViSPOxclbC.jpg');
   background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;
-  }
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
 
 .canvas {
   background-color:black;
@@ -17,20 +29,19 @@ body {
   top: 380px;
   transform: translate(-50%, -50%);
   position:absolute;
-  }
+}
 
 h1 {
   color: white;
   text-align: center;
-  }
+}
 
 h3 {
   color: white;
   text-align: center;
-  }
+}
 
 h2 {
   float:left;
   color:white;
 }
-
