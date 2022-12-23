@@ -6,13 +6,12 @@ html {
 
 html {
   overflow: scroll;
-   overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
-  width: 0;  
-  background: transparent; 
-  scrollbar invisible 
+  width: 0;
+  background: transparent;
 }
 
 body {
@@ -23,12 +22,12 @@ body {
 }
 
 .canvas {
-  background-color:black;
+  background-color: black;
   border: 10px solid lightgrey;
   left: 50%;
   top: 380px;
   transform: translate(-50%, -50%);
-  position:absolute;
+  position: absolute;
 }
 
 h1 {
@@ -42,6 +41,6 @@ h3 {
 }
 
 h2 {
-  float:left;
-  color:white;
+  float: left;
+  color: white;
 }
