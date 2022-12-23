@@ -6,7 +6,7 @@ var highScore = 0;
 function text(txt, fnt, x, y, c) {
   context.fillStyle = c;
   context.font = fnt;
-  context.fillText(txt, x, y)
+  context.fillText(txt, x, y);
 
 }
 
@@ -55,7 +55,6 @@ const brickWidth = 25;
 const brickHeight = 12;
 const wallSize = 12;
 const bricks = [];
-let brickCount = bricks.length;
 const playerLength = 35;
 
 for (let row = 0; row < level1.length; row++) {
@@ -129,7 +128,7 @@ document.addEventListener('keydown', function(e) {
         ball.dx = ball.speed;
         ball.dy = ball.speed;
         if (chance < 5) {
-          ball.dx *= -1
+          ball.dx *= -1;
         }
       }
       break;
@@ -172,18 +171,18 @@ function loop() {
   localStorage.setItem('highScore', highScore);
   requestAnimationFrame(loop);
   context.clearRect(0, 0, canvas.width, canvas.height);
-  text('Score: ' + score, '30px Cosmic Sans MS', 20, 35, 'white')
-  text('Lives: ' + lives, '30px Cosmic Sans MS', 280, 35, 'white')
+  text('Score: ' + score, '30px Cosmic Sans MS', 20, 35, 'white');
+  text('Lives: ' + lives, '30px Cosmic Sans MS', 280, 35, 'white');
   if (gameOver == true) {
     player.dx = 0;
-    text('Game Over', '30px Cosmic Sans MS', canvas.width / 2 - 60, 340, 'white')
-    text('High Score: ' + highScore, '36px Cosmic Sans MS', canvas.width / 2 - 90, 300, 'white')
-    text('Press R to restart', '18px Cosmic Sans MS', canvas.width / 2 - 50, 365, 'white')
+    text('Game Over', '30px Cosmic Sans MS', canvas.width / 2 - 60, 340, 'white');
+    text('High Score: ' + highScore, '36px Cosmic Sans MS', canvas.width / 2 - 90, 300, 'white');
+    text('Press R to restart', '18px Cosmic Sans MS', canvas.width / 2 - 50, 365, 'white');
   }
   player.x += player.dx;
 
   if (player.x < wallSize) {
-    player.x = wallSize
+    player.x = wallSize;
   } else if (player.x + playerLength > canvas.width - wallSize) {
     player.x = canvas.width - wallSize - playerLength;
   }
@@ -208,8 +207,8 @@ function loop() {
     ball.y = 260;
     ball.dx = 0;
     ball.dy = 0;
-    chance = Math.random() * 10
-    lives--
+    chance = Math.random() * 10;
+    lives--;
     if (lives == 0) {
       gameOver = true;
     }
@@ -217,16 +216,14 @@ function loop() {
 
   if (collides(ball, player)) {
     ball.dy *= -1;
-
     ball.y = player.y - ball.height;
   }
 
   for (let i = 0; i < bricks.length; i++) {
     const brick = bricks[i];
-
     if (collides(ball, brick)) {
       bricks.splice(i, 1);
-      score++
+      score++;
       if (ball.y + ball.height - ball.speed <= brick.y ||
         ball.y >= brick.y + brick.height - ball.speed) {
         ball.dy *= -1;
@@ -255,9 +252,9 @@ function loop() {
   context.fillRect(player.x, player.y, player.width, player.height);
 
   if (bricks.length == 0) {
-    lives += 6
+    lives += 6;
     resetBricks();
-    ball.y = canvas.height + 100
+    ball.y = canvas.height + 100;
   }
 }
 
