@@ -7,7 +7,6 @@ function text(txt, fnt, x, y, c) {
   context.fillStyle = c;
   context.font = fnt;
   context.fillText(txt, x, y);
-
 }
 
 function update() {
