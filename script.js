@@ -1,4 +1,4 @@
-var chance = Math.random() * 10;
+var chance = Math.random() * 11;
 var score = 0;
 var lives = 5;
 var gameOver = false;
@@ -99,7 +99,7 @@ const player = {
 };
 
 const ball = {
-  x: chance * 30,
+  x: Math.random() * 401,
   y: 260,
   width: 10,
   height: 10,
@@ -203,11 +203,11 @@ function loop() {
   }
 
   if (gameOver == false && ball.y > canvas.height) {
-    ball.x = Math.random() * 400;
+    ball.x = Math.random() * 401;
     ball.y = 260;
     ball.dx = 0;
     ball.dy = 0;
-    chance = Math.random() * 10;
+    chance = Math.random() * 11;
     lives--;
     if (lives == 0) {
       gameOver = true;
