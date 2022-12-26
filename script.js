@@ -132,7 +132,7 @@ document.addEventListener('keydown', function(e) {
       }
       break;
     case 82: //'R' key
-      if (gameOver == true) {
+      if (gameOver) {
         lives = 5;
         score = 0;
         gameOver = false;
@@ -172,7 +172,7 @@ function loop() {
   context.clearRect(0, 0, canvas.width, canvas.height);
   text('Score: ' + score, '30px Cosmic Sans MS', 20, 35, 'white');
   text('Lives: ' + lives, '30px Cosmic Sans MS', 280, 35, 'white');
-  if (gameOver == true) {
+  if (gameOver) {
     player.dx = 0;
     text('Game Over', '30px Cosmic Sans MS', canvas.width / 2 - 60, 340, 'white');
     text('High Score: ' + highScore, '36px Cosmic Sans MS', canvas.width / 2 - 90, 300, 'white');
