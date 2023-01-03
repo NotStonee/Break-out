@@ -1,4 +1,4 @@
-var chance = Math.random() * 10;
+var chance = Math.random() * 11;
 var score = 0;
 var lives = 5;
 var gameOver = false;
@@ -6,8 +6,7 @@ var highScore = 0;
 function text(txt, fnt, x, y, c) {
   context.fillStyle = c;
   context.font = fnt;
-  context.fillText(txt, x, y)
-
+  context.fillText(txt, x, y);
 }
 
 function update() {
@@ -55,7 +54,6 @@ const brickWidth = 25;
 const brickHeight = 12;
 const wallSize = 12;
 const bricks = [];
-let brickCount = bricks.length;
 const playerLength = 35;
 
 for (let row = 0; row < level1.length; row++) {
@@ -70,6 +68,13 @@ for (let row = 0; row < level1.length; row++) {
       height: brickHeight
     });
   }
+}
+
+function drawBricks() {
+    bricks.forEach(function(brick) {
+    context.fillStyle = brick.color;
+    context.fillRect(brick.x, brick.y, brick.width, brick.height);
+  });
 }
 
 function resetBricks() {
@@ -90,6 +95,13 @@ function resetBricks() {
   }
 }
 
+function drawBorder() {
+  context.fillStyle = 'lightgrey';
+  context.fillRect(0, 0, canvas.width, wallSize);
+  context.fillRect(0, 0, wallSize, canvas.height);
+  context.fillRect(canvas.width - wallSize, 0, wallSize, canvas.height);
+}
+
 const player = {
   x: canvas.width / 2 - playerLength / 2,
   y: 440,
@@ -99,17 +111,26 @@ const player = {
   dx: 0
 };
 
+function drawPlayer() {
+  context.fillStyle = 'white';
+  context.fillRect(player.x, player.y, player.width, player.height);
+}
+
 const ball = {
-  x: chance * 30,
+  x: Math.random() * 401,
   y: 260,
   width: 10,
   height: 10,
-
   speed: 3.5,
-
   dx: 0,
   dy: 0
 };
+
+function drawBall() {
+    if (ball.dx || ball.dy) {
+    context.fillRect(ball.x, ball.y, ball.width, ball.height);
+  }
+}
 
 document.addEventListener('keydown', function(e) {
   switch (e.which) {
@@ -129,12 +150,12 @@ document.addEventListener('keydown', function(e) {
         ball.dx = ball.speed;
         ball.dy = ball.speed;
         if (chance < 5) {
-          ball.dx *= -1
+          ball.dx *= -1;
         }
       }
       break;
     case 82: //'R' key
-      if (gameOver == true) {
+      if (gameOver) {
         lives = 5;
         score = 0;
         gameOver = false;
@@ -172,18 +193,18 @@ function loop() {
   localStorage.setItem('highScore', highScore);
   requestAnimationFrame(loop);
   context.clearRect(0, 0, canvas.width, canvas.height);
-  text('Score: ' + score, '30px Cosmic Sans MS', 20, 35, 'white')
-  text('Lives: ' + lives, '30px Cosmic Sans MS', 280, 35, 'white')
-  if (gameOver == true) {
+  text('Score: ' + score, '30px Cosmic Sans MS', 20, 35, 'white');
+  text('Lives: ' + lives, '30px Cosmic Sans MS', 280, 35, 'white');
+  if (gameOver) {
     player.dx = 0;
-    text('Game Over', '30px Cosmic Sans MS', canvas.width / 2 - 60, 340, 'white')
-    text('High Score: ' + highScore, '36px Cosmic Sans MS', canvas.width / 2 - 90, 300, 'white')
-    text('Press R to restart', '18px Cosmic Sans MS', canvas.width / 2 - 50, 365, 'white')
+    text('Game Over', '30px Cosmic Sans MS', canvas.width / 2 - 60, 340, 'white');
+    text('High Score: ' + highScore, '36px Cosmic Sans MS', canvas.width / 2 - 90, 300, 'white');
+    text('Press R to restart', '18px Cosmic Sans MS', canvas.width / 2 - 50, 365, 'white');
   }
   player.x += player.dx;
 
   if (player.x < wallSize) {
-    player.x = wallSize
+    player.x = wallSize;
   } else if (player.x + playerLength > canvas.width - wallSize) {
     player.x = canvas.width - wallSize - playerLength;
   }
@@ -204,12 +225,12 @@ function loop() {
   }
 
   if (gameOver == false && ball.y > canvas.height) {
-    ball.x = Math.random() * 400;
+    ball.x = Math.random() * 401;
     ball.y = 260;
     ball.dx = 0;
     ball.dy = 0;
-    chance = Math.random() * 10
-    lives--
+    chance = Math.random() * 11;
+    lives--;
     if (lives == 0) {
       gameOver = true;
     }
@@ -217,16 +238,14 @@ function loop() {
 
   if (collides(ball, player)) {
     ball.dy *= -1;
-
     ball.y = player.y - ball.height;
   }
 
   for (let i = 0; i < bricks.length; i++) {
     const brick = bricks[i];
-
     if (collides(ball, brick)) {
       bricks.splice(i, 1);
-      score++
+      score++;
       if (ball.y + ball.height - ball.speed <= brick.y ||
         ball.y >= brick.y + brick.height - ball.speed) {
         ball.dy *= -1;
@@ -236,28 +255,15 @@ function loop() {
       break;
     }
   }
-
-  context.fillStyle = 'lightgrey';
-  context.fillRect(0, 0, canvas.width, wallSize);
-  context.fillRect(0, 0, wallSize, canvas.height);
-  context.fillRect(canvas.width - wallSize, 0, wallSize, canvas.height);
-
-  if (ball.dx || ball.dy) {
-    context.fillRect(ball.x, ball.y, ball.width, ball.height);
-  }
-
-  bricks.forEach(function(brick) {
-    context.fillStyle = brick.color;
-    context.fillRect(brick.x, brick.y, brick.width, brick.height);
-  });
-
-  context.fillStyle = 'white';
-  context.fillRect(player.x, player.y, player.width, player.height);
-
+  
+  drawBorder();
+  drawBall();
+  drawBricks();
+  drawPlayer();
+  
   if (bricks.length == 0) {
-    lives += 6
+    lives += 5;
     resetBricks();
-    ball.y = canvas.height + 100
   }
 }
 
