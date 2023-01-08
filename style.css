@@ -25,7 +25,7 @@ body {
   background-color: black;
   border: 10px solid lightgrey;
   left: 50%;
-  top: 380px;
+  top: 360px;
   transform: translate(-50%, -50%);
   position: absolute;
 }
@@ -33,14 +33,12 @@ body {
 h1 {
   color: white;
   text-align: center;
+  position:relative;
+  top:10px;
+  margin:0px;
 }
 
 h3 {
   color: white;
   text-align: center;
-}
-
-h2 {
-  float: left;
-  color: white;
 }
