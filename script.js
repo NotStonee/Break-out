@@ -3,6 +3,16 @@ var score = 0;
 var lives = 5;
 var gameOver = false;
 var highScore = 0;
+var bonusCounter = 0;
+
+function bonus() {
+  bonusCounter++;
+  if (bonusCounter == 20) {
+    lives++
+    bonusCounter = 0;
+  }
+}
+
 function text(txt, fnt, x, y, c) {
   context.fillStyle = c;
   context.font = fnt;
@@ -168,6 +178,8 @@ document.addEventListener('keyup', function(e) {
   }
 });
 
+
+
 //(AABB)
 function collides(obj1, obj2) {
   return obj1.x < obj2.x + obj2.width &&
@@ -237,6 +249,7 @@ function loop() {
     if (collides(ball, brick)) {
       bricks.splice(i, 1);
       score++;
+      bonus();
       if (ball.y + ball.height - ball.speed <= brick.y ||
         ball.y >= brick.y + brick.height - ball.speed) {
         ball.dy *= -1;
