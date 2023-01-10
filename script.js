@@ -19,10 +19,6 @@ function text(txt, fnt, x, y, c) {
   context.fillText(txt, x, y);
 }
 
-function update() {
-  requestAnimationFrame(update);
-}
-
 const storedHighScore = localStorage.getItem('highScore');
 if (storedHighScore) {
   highScore = storedHighScore;
@@ -64,7 +60,6 @@ const brickWidth = 25;
 const brickHeight = 12;
 const wallSize = 12;
 const bricks = [];
-const playerLength = 35;
 for (let row = 0; row < level1.length; row++) {
   for (let col = 0; col < level1[row].length; col++) {
     const colorCode = level1[row][col];
@@ -108,6 +103,9 @@ function drawBorder() {
   context.fillRect(canvas.width - wallSize, 0, wallSize, canvas.height);
 }
 
+const playerLength = 35;
+var moveLeft = false;
+var moveRight = false;
 const player = {
   x: canvas.width / 2 - playerLength / 2,
   y: 440,
@@ -141,11 +139,11 @@ document.addEventListener('keydown', function(e) {
   switch (e.which) {
     case 37: // left arrow key
     case 65: // 'A' key
-      player.dx = -7;
+      moveLeft = true;
       break;
     case 39: // right arrow key
     case 68: // 'D' key
-      player.dx = 7;
+      moveRight = true;
       break;
     case 32: //spacebar
       event.preventDefault();
@@ -171,12 +169,24 @@ document.addEventListener('keyup', function(e) {
   switch (e.which) {
     case 65:
     case 37:
+      moveLeft = false;
+      break;
     case 68:
     case 39:
-      player.dx = 0;
+      moveRight = false;
       break;
   }
 });
+
+  function movement() {
+    if (moveLeft) {
+      player.dx = -7;
+    } else if (moveRight) {
+      player.dx = 7;
+    } else if (moveLeft == false && moveRight == false) {
+      player.dx = 0;
+    }
+  }
 
 
 
@@ -264,6 +274,7 @@ function loop() {
   drawBall();
   drawBricks();
   drawPlayer();
+  movement();
   if (bricks.length == 0) {
     lives += 5;
     resetBricks();
