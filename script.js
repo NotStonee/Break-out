@@ -66,7 +66,7 @@ for (let row = 0; row < level1.length; row++) {
 }
 
 function drawBricks() {
-    bricks.forEach(function(brick) {
+  bricks.forEach(function(brick) {
     context.fillStyle = brick.color;
     context.fillRect(brick.x, brick.y, brick.width, brick.height);
   });
@@ -120,23 +120,24 @@ const ball = {
   height: 10,
   speed: 3.5,
   dx: 0,
-  dy: 0};
+  dy: 0
+};
 
 function ballDirection() {
-  if (Math.random() * 11 > 5 ) {
+  if (Math.random() * 11 > 5) {
     return ball.speed;
   } else return -ball.speed;
 }
 
 function makeBall() {
   balls.push({
-        x: player.x + player.dx,
-        y: player.y - player.height - ball.height,
-        width: 10,
-        height: 10,
-        dx: ballDirection(),
-        dy: -ball.speed}
-      );
+    x: player.x + player.dx,
+    y: player.y - player.height - ball.height,
+    width: 10,
+    height: 10,
+    dx: ballDirection(),
+    dy: -ball.speed
+  });
 }
 
 function drawBalls() {
@@ -144,17 +145,15 @@ function drawBalls() {
     let ball = balls[i];
     if (ball.dx || ball.dy) {
       context.fillRect(ball.x, ball.y, ball.width, ball.height);
-    }  
+    }
   }
 };
 
 function drawBall() {
-  if (ball.dx  || ball.dy) {
+  if (ball.dx || ball.dy) {
     context.fillRect(ball.x, ball.y, ball.width, ball.height);
   }
 };
-
-
 
 function moveBalls() {
   for (let i = 0; i < balls.length; i++) {
@@ -174,7 +173,7 @@ function bonus() {
   if (bonusCounter == 15) {
     if (lives < 999) {
       lives++;
-    lives = lives.toString();
+      lives = lives.toString();
     }
     bonusCounter = 0;
     makeBall();
@@ -199,7 +198,7 @@ document.addEventListener('keydown', function(e) {
         if (chance < 5) {
           ball.dx *= -1;
         }
-      }  else if (gameOver) {
+      } else if (gameOver) {
         lives = 5;
         score = 0;
         gameOver = false;
@@ -224,17 +223,15 @@ document.addEventListener('keyup', function(e) {
   }
 });
 
-  function movement() {
-    if (moveLeft) {
-      player.dx = -7;
-    } else if (moveRight) {
-      player.dx = 7;
-    } else if (moveLeft == false && moveRight == false) {
-      player.dx = 0;
-    }
+function movement() {
+  if (moveLeft) {
+    player.dx = -7;
+  } else if (moveRight) {
+    player.dx = 7;
+  } else if (moveLeft == false && moveRight == false) {
+    player.dx = 0;
   }
-
-
+}
 
 //(AABB)
 function collides(obj1, obj2) {
@@ -254,7 +251,7 @@ function loop() {
   context.clearRect(0, 0, canvas.width, canvas.height);
   text('Score: ' + score, '30px Cosmic Sans MS', 20, 35, 'white');
   if (lives.length == 1) {
-    text('Lives: ' + '00' + lives , '30px Cosmic Sans MS', 260, 35, 'white');
+    text('Lives: ' + '00' + lives, '30px Cosmic Sans MS', 260, 35, 'white');
   } else if (lives.length == 2) {
     text('Lives: ' + '0' + lives, '30px Cosmic Sans MS', 260, 35, 'white');
   } else {
@@ -266,31 +263,31 @@ function loop() {
     text('High Score: ' + highScore, '36px Cosmic Sans MS', canvas.width / 2 - 90, 300, 'white');
     text('Press Space to restart', '18px Cosmic Sans MS', canvas.width / 2 - 65, 365, 'white');
   }
-  
+
   player.x += player.dx;
   if (player.x < wallSize) {
     player.x = wallSize;
   } else if (player.x + playerLength > canvas.width - wallSize) {
     player.x = canvas.width - wallSize - playerLength;
   }
-for (let i = 0; i < balls.length; i++) {
+  for (let i = 0; i < balls.length; i++) {
     let ball = balls[i];
-  if (ball.x < wallSize) {
-    ball.x = wallSize;
-    ball.dx *= -1;
-  } else if (ball.x + ball.width > canvas.width - wallSize) {
-    ball.x = canvas.width - wallSize - ball.width;
-    ball.dx *= -1;
+    if (ball.x < wallSize) {
+      ball.x = wallSize;
+      ball.dx *= -1;
+    } else if (ball.x + ball.width > canvas.width - wallSize) {
+      ball.x = canvas.width - wallSize - ball.width;
+      ball.dx *= -1;
+    }
   }
-    } 
 
   for (let i = 0; i < balls.length; i++) {
     let ball = balls[i];
     if (ball.y < wallSize) {
-    ball.y = wallSize;
-    ball.dy *= -1;
+      ball.y = wallSize;
+      ball.dy *= -1;
+    }
   }
-}
 
   if (ball.y < wallSize) {
     ball.y = wallSize;
@@ -304,7 +301,7 @@ for (let i = 0; i < balls.length; i++) {
     ball.x = canvas.width - wallSize - ball.width;
     ball.dx *= -1;
   }
-  
+
   if (gameOver == false && ball.y > canvas.height) {
     ball.x = Math.random() * 401;
     ball.y = 260;
@@ -328,16 +325,16 @@ for (let i = 0; i < balls.length; i++) {
 
   for (let i = 0; i < balls.length; i++) {
     let ball = balls[i];
-  if (collides(ball, player)) {
-    ball.dy *= -1;
-    ball.y = player.y - ball.height;
+    if (collides(ball, player)) {
+      ball.dy *= -1;
+      ball.y = player.y - ball.height;
     }
   }
 
   if (collides(ball, player)) {
     ball.dy *= -1;
     ball.y = player.y - ball.height;
-    }
+  }
 
   for (let i = 0; i < balls.length; i++) {
     let ball = balls[i];
@@ -357,19 +354,19 @@ for (let i = 0; i < balls.length; i++) {
   }
 
   for (let j = 0; j < bricks.length; j++) {
-      let brick = bricks[j];
-      if (collides(ball, brick)) {
-        bricks.splice(j, 1);
-        score++;
-        bonus();
-        if (ball.y + ball.height - ball.speed <= brick.y || ball.y >= brick.y + brick.height - ball.speed) {
-          ball.dy *= -1;
-        } else {
-          ball.dx *= -1;
-        }
+    let brick = bricks[j];
+    if (collides(ball, brick)) {
+      bricks.splice(j, 1);
+      score++;
+      bonus();
+      if (ball.y + ball.height - ball.speed <= brick.y || ball.y >= brick.y + brick.height - ball.speed) {
+        ball.dy *= -1;
+      } else {
+        ball.dx *= -1;
       }
     }
-  
+  }
+
   drawBorder();
   drawBalls();
   drawBall();
@@ -379,9 +376,9 @@ for (let i = 0; i < balls.length; i++) {
   drawPlayer();
   movement();
   if (bricks.length == 0) {
-  for (let i = 0; i < 5; i++) {
-    lives++
-  }
+    for (let i = 0; i < 5; i++) {
+      lives++
+    }
     resetBricks();
   }
 }
