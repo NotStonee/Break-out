@@ -1,17 +1,9 @@
 var chance = Math.random() * 11;
 var score = 0;
-var lives = 5;
+var lives = '5';
 var gameOver = false;
 var highScore = 0;
 var bonusCounter = 0;
-
-function bonus() {
-  bonusCounter++;
-  if (bonusCounter == 20) {
-    lives++
-    bonusCounter = 0;
-  }
-}
 
 function text(txt, fnt, x, y, c) {
   context.fillStyle = c;
@@ -119,6 +111,8 @@ function drawPlayer() {
   context.fillRect(player.x, player.y, player.width, player.height);
 }
 
+var balls = [];
+
 const ball = {
   x: Math.random() * 401,
   y: 260,
@@ -126,12 +120,64 @@ const ball = {
   height: 10,
   speed: 3.5,
   dx: 0,
-  dy: 0
+  dy: 0};
+
+function ballDirection() {
+  if (Math.random() * 11 > 5 ) {
+    return ball.speed;
+  } else return -ball.speed;
+}
+
+function makeBall() {
+  balls.push({
+        x: player.x + player.dx,
+        y: player.y - player.height - ball.height,
+        width: 10,
+        height: 10,
+        dx: ballDirection(),
+        dy: -ball.speed}
+      );
+}
+
+function drawBalls() {
+  for (let i = 0; i < balls.length; i++) {
+    let ball = balls[i];
+    if (ball.dx || ball.dy) {
+      context.fillRect(ball.x, ball.y, ball.width, ball.height);
+    }  
+  }
 };
 
 function drawBall() {
-    if (ball.dx || ball.dy) {
+  if (ball.dx  || ball.dy) {
     context.fillRect(ball.x, ball.y, ball.width, ball.height);
+  }
+};
+
+
+
+function moveBalls() {
+  for (let i = 0; i < balls.length; i++) {
+    let ball = balls[i];
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+  }
+};
+
+function moveball() {
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+};
+
+function bonus() {
+  bonusCounter++;
+  if (bonusCounter == 15) {
+    if (lives < 999) {
+      lives++;
+    lives = lives.toString();
+    }
+    bonusCounter = 0;
+    makeBall();
   }
 }
 
@@ -147,7 +193,7 @@ document.addEventListener('keydown', function(e) {
       break;
     case 32: //spacebar
       event.preventDefault();
-      if (gameOver == false && ball.dx == 0 && ball.dy == 0) {
+      if (gameOver == false && ball.dx == 0 && ball.dy == 0 && balls.length == 0) {
         ball.dx = ball.speed;
         ball.dy = ball.speed;
         if (chance < 5) {
@@ -199,6 +245,7 @@ function collides(obj1, obj2) {
 }
 
 function loop() {
+  console.log(ball.dx && ball.dy);
   if (score > highScore) {
     highScore = score;
   }
@@ -206,7 +253,13 @@ function loop() {
   requestAnimationFrame(loop);
   context.clearRect(0, 0, canvas.width, canvas.height);
   text('Score: ' + score, '30px Cosmic Sans MS', 20, 35, 'white');
-  text('Lives: ' + lives, '30px Cosmic Sans MS', 280, 35, 'white');
+  if (lives.length == 1) {
+    text('Lives: ' + '00' + lives , '30px Cosmic Sans MS', 260, 35, 'white');
+  } else if (lives.length == 2) {
+    text('Lives: ' + '0' + lives, '30px Cosmic Sans MS', 260, 35, 'white');
+  } else {
+    text('Lives: ' + lives, '30px Cosmic Sans MS', 260, 35, 'white');
+  }
   if (gameOver) {
     player.dx = 0;
     text('Game Over', '30px Cosmic Sans MS', canvas.width / 2 - 60, 340, 'white');
@@ -220,9 +273,29 @@ function loop() {
   } else if (player.x + playerLength > canvas.width - wallSize) {
     player.x = canvas.width - wallSize - playerLength;
   }
+for (let i = 0; i < balls.length; i++) {
+    let ball = balls[i];
+  if (ball.x < wallSize) {
+    ball.x = wallSize;
+    ball.dx *= -1;
+  } else if (ball.x + ball.width > canvas.width - wallSize) {
+    ball.x = canvas.width - wallSize - ball.width;
+    ball.dx *= -1;
+  }
+    } 
 
-  ball.x += ball.dx;
-  ball.y += ball.dy;
+  for (let i = 0; i < balls.length; i++) {
+    let ball = balls[i];
+    if (ball.y < wallSize) {
+    ball.y = wallSize;
+    ball.dy *= -1;
+  }
+}
+
+  if (ball.y < wallSize) {
+    ball.y = wallSize;
+    ball.dy *= -1;
+  }
 
   if (ball.x < wallSize) {
     ball.x = wallSize;
@@ -232,51 +305,83 @@ function loop() {
     ball.dx *= -1;
   }
   
-  if (ball.y < wallSize) {
-    ball.y = wallSize;
-    ball.dy *= -1;
-  }
-
   if (gameOver == false && ball.y > canvas.height) {
     ball.x = Math.random() * 401;
     ball.y = 260;
     ball.dx = 0;
     ball.dy = 0;
     chance = Math.random() * 11;
+    bonusCounter = 0;
     lives--;
+    lives = lives.toString();
     if (lives == 0) {
       gameOver = true;
+    }
+  }
+
+  for (let i = 0; i < balls.length; i++) {
+    let ball = balls[i]
+    if (ball.y > canvas.height) {
+      balls.splice(i, 1);
+    }
+  }
+
+  for (let i = 0; i < balls.length; i++) {
+    let ball = balls[i];
+  if (collides(ball, player)) {
+    ball.dy *= -1;
+    ball.y = player.y - ball.height;
     }
   }
 
   if (collides(ball, player)) {
     ball.dy *= -1;
     ball.y = player.y - ball.height;
-  }
+    }
 
-  for (let i = 0; i < bricks.length; i++) {
-    const brick = bricks[i];
-    if (collides(ball, brick)) {
-      bricks.splice(i, 1);
-      score++;
-      bonus();
-      if (ball.y + ball.height - ball.speed <= brick.y ||
-        ball.y >= brick.y + brick.height - ball.speed) {
-        ball.dy *= -1;
-      } else {
-        ball.dx *= -1;
+  for (let i = 0; i < balls.length; i++) {
+    let ball = balls[i];
+    for (let j = 0; j < bricks.length; j++) {
+      let brick = bricks[j];
+      if (collides(ball, brick)) {
+        bricks.splice(j, 1);
+        score++;
+        bonus();
+        if (ball.y + ball.height - ball.speed <= brick.y || ball.y >= brick.y + brick.height - ball.speed) {
+          ball.dx *= -1;
+        } else {
+          ball.dy *= -1;
+        }
       }
-      break;
     }
   }
+
+  for (let j = 0; j < bricks.length; j++) {
+      let brick = bricks[j];
+      if (collides(ball, brick)) {
+        bricks.splice(j, 1);
+        score++;
+        bonus();
+        if (ball.y + ball.height - ball.speed <= brick.y || ball.y >= brick.y + brick.height - ball.speed) {
+          ball.dy *= -1;
+        } else {
+          ball.dx *= -1;
+        }
+      }
+    }
   
   drawBorder();
+  drawBalls();
   drawBall();
+  moveBalls();
+  moveball();
   drawBricks();
   drawPlayer();
   movement();
   if (bricks.length == 0) {
-    lives += 5;
+  for (let i = 0; i < 5; i++) {
+    lives++
+  }
     resetBricks();
   }
 }
