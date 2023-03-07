@@ -1,4 +1,3 @@
-var chance = Math.random() * 11;
 var score = 0;
 var lives = '5';
 var gameOver = false;
@@ -174,6 +173,8 @@ function bonus() {
     if (lives < 999) {
       lives++;
       lives = lives.toString();
+    } else if (lives >= 999) {
+      lives = 999;
     }
     bonusCounter = 0;
     makeBall();
@@ -195,7 +196,7 @@ document.addEventListener('keydown', function(e) {
       if (gameOver == false && ball.dx == 0 && ball.dy == 0 && balls.length == 0) {
         ball.dx = ball.speed;
         ball.dy = ball.speed;
-        if (chance < 5) {
+        if (Math.random * 11 < 5) {
           ball.dx *= -1;
         }
       } else if (gameOver) {
@@ -307,7 +308,6 @@ function loop() {
     ball.y = 260;
     ball.dx = 0;
     ball.dy = 0;
-    chance = Math.random() * 11;
     bonusCounter = 0;
     lives--;
     lives = lives.toString();
