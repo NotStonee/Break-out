@@ -87,6 +87,15 @@ function resetBricks() {
   }
 }
 
+function noMoreBricks() {
+    if (bricks.length == 0) {
+      for (let i = 0; i < 5; i++) {
+        lives++
+      }
+    resetBricks();
+    } 
+  }
+
 function drawBorder() {
   context.fillStyle = 'lightgrey';
   context.fillRect(0, 0, canvas.width, wallSize);
@@ -225,6 +234,7 @@ document.addEventListener('keyup', function(e) {
 });
 
 function movement() {
+  player.x += player.dx;
   if (moveLeft) {
     player.dx = -7;
   } else if (moveRight) {
@@ -242,11 +252,20 @@ function collides(obj1, obj2) {
     obj1.y + obj1.height > obj2.y;
 }
 
+function gameOverScreen() {
+    if (gameOver) {
+    player.dx = 0;
+    text('Game Over', '30px Cosmic Sans MS', canvas.width / 2 - 60, 340, 'white');
+    text('High Score: ' + highScore, '36px Cosmic Sans MS', canvas.width / 2 - 90, 300, 'white');
+    text('Press Space to restart', '18px Cosmic Sans MS', canvas.width / 2 - 65, 365, 'white');
+    }
+  }
+
 function loop() {
-  console.log(ball.dx && ball.dy);
   if (score > highScore) {
     highScore = score;
   }
+  
   localStorage.setItem('highScore', highScore);
   requestAnimationFrame(loop);
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -258,14 +277,9 @@ function loop() {
   } else {
     text('Lives: ' + lives, '30px Cosmic Sans MS', 260, 35, 'white');
   }
-  if (gameOver) {
-    player.dx = 0;
-    text('Game Over', '30px Cosmic Sans MS', canvas.width / 2 - 60, 340, 'white');
-    text('High Score: ' + highScore, '36px Cosmic Sans MS', canvas.width / 2 - 90, 300, 'white');
-    text('Press Space to restart', '18px Cosmic Sans MS', canvas.width / 2 - 65, 365, 'white');
-  }
+  
+  gameOverScreen();
 
-  player.x += player.dx;
   if (player.x < wallSize) {
     player.x = wallSize;
   } else if (player.x + playerLength > canvas.width - wallSize) {
@@ -375,12 +389,7 @@ function loop() {
   drawBricks();
   drawPlayer();
   movement();
-  if (bricks.length == 0) {
-    for (let i = 0; i < 5; i++) {
-      lives++
-    }
-    resetBricks();
-  }
+  noMoreBricks();  
 }
 
 // start the game
