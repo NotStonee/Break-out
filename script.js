@@ -17,7 +17,7 @@ if (storedHighScore) {
 
 const canvas = document.getElementById('game');
 const context = canvas.getContext('2d');
-const level1 = [
+const level = [
   [],
   [],
   ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R'],
@@ -51,9 +51,9 @@ const brickWidth = 25;
 const brickHeight = 12;
 const wallSize = 12;
 const bricks = [];
-for (let row = 0; row < level1.length; row++) {
-  for (let col = 0; col < level1[row].length; col++) {
-    const colorCode = level1[row][col];
+for (let row = 0; row < level.length; row++) {
+  for (let col = 0; col < level[row].length; col++) {
+    const colorCode = level[row][col];
     bricks.push({
       x: wallSize + (brickWidth + brickGap) * col,
       y: wallSize + (brickHeight + brickGap) * row,
@@ -73,9 +73,9 @@ function drawBricks() {
 
 function resetBricks() {
   bricks.length = 0;
-  for (let row = 0; row < level1.length; row++) {
-    for (let col = 0; col < level1[row].length; col++) {
-      const colorCode = level1[row][col];
+  for (let row = 0; row < level.length; row++) {
+    for (let col = 0; col < level[row].length; col++) {
+      const colorCode = level[row][col];
       bricks.push({
         x: wallSize + (brickWidth + brickGap) * col,
         y: wallSize + (brickHeight + brickGap) * row,
