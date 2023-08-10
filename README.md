@@ -1,2 +1,2 @@
 # Break-out
-The Game is done I will only be working on it to make my code better, enhance play experience, and add new features.
+The Game is done I will only be working on it to enhance play experience and add new features.
